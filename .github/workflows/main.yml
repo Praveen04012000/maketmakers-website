@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Makers Design Studio | Creative Design & Print Solutions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --accent: #e74c3c;
+            --accent-orange: #f39c12;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --green: #27ae60;
+            --gradient-1: linear-gradient(135deg, #1a5276 0%, #2980b9 50%, #3498db 100%);
+            --gradient-2: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+            --gradient-3: linear-gradient(135deg, #1a1a2e 0%, #1a5276 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+            background: #fff;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+            padding: 8px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            font-weight: 800;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+            animation: logoShine 3s infinite;
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .brand {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.1;
+        }
+
+        .navbar:not(.scrolled) .logo-text .brand { color: #fff; }
+
+        .logo-text .tagline {
+            font-size: 11px;
+            color: var(--gray);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .navbar:not(.scrolled) .logo-text .tagline { color: rgba(255,255,255,0.7); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .navbar.scrolled .nav-links a { color: var(--dark); }
+
+        .nav-links a:hover {
+            background: rgba(41, 128, 185, 0.1);
+            color: var(--primary-light);
+        }
+
+        .nav-links .cta-btn {
+            background: var(--gradient-2);
+            color: #fff !important;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .nav-links .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .navbar.scrolled .hamburger span { background: var(--dark); }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-3);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(41,128,185,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(231,76,60,0.15) 0%, transparent 40%),
+                radial-gradient(circle at 60% 80%, rgba(243,156,18,0.1) 0%, transparent 40%);
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 span {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            margin-bottom: 35px;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient-2);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(231,76,60,0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.4);
+            color: #fff;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-graphic {
+            position: relative;
+            width: 450px;
+            height: 450px;
+        }
+
+        .hero-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.08);
+            animation: spin 20s linear infinite;
+        }
+
+        .hero-ring:nth-child(1) { width: 100%; height: 100%; top: 0; left: 0; }
+        .hero-ring:nth-child(2) { width: 75%; height: 75%; top: 12.5%; left: 12.5%; animation-direction: reverse; animation-duration: 15s; border-color: rgba(41,128,185,0.2); }
+        .hero-ring:nth-child(3) { width: 50%; height: 50%; top: 25%; left: 25%; animation-duration: 10s; border-color: rgba(231,76,60,0.15); }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .hero-center-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            width: 240px;
+        }
+
+        .hero-center-card .year {
+            font-size: 52px;
+            font-weight: 800;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .hero-center-card .since {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .hero-center-card .exp {
+            color: #fff;
+            font-size: 15px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .floating-badge i { font-size: 20px; color: var(--accent-orange); }
+
+        .floating-badge:nth-child(5) { top: 5%; right: 0; animation-delay: 0s; }
+        .floating-badge:nth-child(6) { bottom: 10%; left: -10%; animation-delay: 2s; }
+        .floating-badge:nth-child(7) { top: 30%; left: -15%; animation-delay: 1s; }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            background: #fff;
+            padding: 0;
+            position: relative;
+            z-index: 10;
+            margin-top: -50px;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .stat-item {
+            padding: 35px 20px;
+            text-align: center;
+            border-right: 1px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .stat-item:last-child { border-right: none; }
+
+        .stat-item:hover {
+            background: var(--gradient-1);
+            color: #fff;
+        }
+
+        .stat-item:hover .stat-number,
+        .stat-item:hover .stat-label { color: #fff; }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            transition: color 0.3s;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 5px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        /* ===== SECTION STYLES ===== */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            background: rgba(41, 128, 185, 0.1);
+            color: var(--primary-light);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== ABOUT ===== */
+        .about { background: #fff; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--light);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .about-feature i {
+            color: var(--green);
+            font-size: 16px;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .mission-vision-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mv-card {
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mv-card.mission {
+            background: linear-gradient(135deg, #1a5276, #2980b9);
+            color: #fff;
+        }
+
+        .mv-card.vision {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: #fff;
+        }
+
+        .mv-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mv-card h3 i { font-size: 24px; }
+
+        .mv-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .mv-card::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        /* ===== SERVICES ===== */
+        .services {
+            background: var(--light);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .service-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 35px 30px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border-color: transparent;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .service-card:nth-child(1) .service-icon { background: rgba(41,128,185,0.1); color: var(--primary-light); }
+        .service-card:nth-child(2) .service-icon { background: rgba(231,76,60,0.1); color: var(--accent); }
+        .service-card:nth-child(3) .service-icon { background: rgba(243,156,18,0.1); color: var(--accent-orange); }
+        .service-card:nth-child(4) .service-icon { background: rgba(39,174,96,0.1); color: var(--green); }
+        .service-card:nth-child(5) .service-icon { background: rgba(142,68,173,0.1); color: #8e44ad; }
+        .service-card:nth-child(6) .service-icon { background: rgba(41,128,185,0.1); color: var(--primary-light); }
+        .service-card:nth-child(7) .service-icon { background: rgba(231,76,60,0.1); color: var(--accent); }
+        .service-card:nth-child(8) .service-icon { background: rgba(243,156,18,0.1); color: var(--accent-orange); }
+        .service-card:nth-child(9) .service-icon { background: rgba(39,174,96,0.1); color: var(--green); }
+
+        .service-card h3 {
+            font-size: 19px;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .service-card .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .service-tag {
+            padding: 4px 12px;
+            background: var(--light);
+            border-radius: 50px;
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* ===== PORTFOLIO SHOWCASE ===== */
+        .portfolio {
+            background: var(--dark);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .portfolio .section-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
+        .portfolio .section-title { color: #fff; }
+        .portfolio .section-subtitle { color: rgba(255,255,255,0.6); }
+
+        .portfolio-categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-cat {
+            padding: 10px 24px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .portfolio-cat:hover, .portfolio-cat.active {
+            background: var(--primary-light);
+            color: #fff;
+            border-color: var(--primary-light);
+        }
+
+        .portfolio-marquee {
+            display: flex;
+            gap: 20px;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+        }
+
+        .portfolio-marquee:hover { animation-play-state: paused; }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .portfolio-item {
+            flex-shrink: 0;
+            width: 320px;
+            height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, rgba(41,128,185,0.3), rgba(231,76,60,0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portfolio-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .portfolio-item:hover .overlay { opacity: 1; }
+
+        .portfolio-item .p-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .portfolio-item .p-cat {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .portfolio-item i {
+            font-size: 40px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ===== CLIENTS ===== */
+        .clients {
+            background: #fff;
+        }
+
+        .clients-info {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .clients-info p {
+            font-size: 16px;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .client-card {
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #eee;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .client-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 10px 30px rgba(41,128,185,0.1);
+            transform: translateY(-5px);
+        }
+
+        .client-card i {
+            font-size: 32px;
+            color: var(--primary-light);
+        }
+
+        .client-card span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        /* ===== WHY CHOOSE US ===== */
+        .why-us {
+            background: var(--light);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .why-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s;
+            border: 1px solid #eee;
+        }
+
+        .why-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+        }
+
+        .why-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: #fff;
+        }
+
+        .why-card h3 {
+            font-size: 18px;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .why-card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: var(--gradient-1);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            color: #fff;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.8);
+            font-size: 17px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: #fff;
+            color: var(--primary);
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact {
+            background: #fff;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-card {
+            display: flex;
+            gap: 18px;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 10px 30px rgba(41,128,185,0.1);
+        }
+
+        .contact-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(41,128,185,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary-light);
+            flex-shrink: 0;
+        }
+
+        .contact-card h4 {
+            font-size: 16px;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .contact-card p, .contact-card a {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+            text-decoration: none;
+        }
+
+        .contact-card a:hover { color: var(--primary-light); }
+
+        .contact-form {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .contact-form h3 {
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+            background: #fff;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .form-group textarea { resize: vertical; min-height: 100px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-1);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(41,128,185,0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.7);
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-brand .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .footer-brand .brand-tag {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--primary-light);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #fff;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+            border: none;
+            box-shadow: 0 5px 20px rgba(41,128,185,0.4);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero .container { grid-template-columns: 1fr; text-align: center; }
+            .hero-content h1 { font-size: 42px; }
+            .hero-content p { margin: 0 auto 35px; }
+            .hero-buttons { justify-content: center; }
+            .hero-visual { display: none; }
+            .about-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #fff;
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+                transition: right 0.3s;
+                gap: 5px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { color: var(--dark) !important; width: 100%; }
+            .hero-content h1 { font-size: 34px; }
+            .section-title { font-size: 32px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .clients-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .about-features { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 28px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .portfolio-item { width: 260px; height: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon">M</div>
+                <div class="logo-text">
+                    <span class="brand">Market Makers</span>
+                    <span class="tagline">Design Studio</span>
+                </div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="cta-btn">Get a Quote</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-particles" id="particles"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Crafting <span>Creative</span> Design Solutions Since 2000</h1>
+                <p>We are a creative design studio specializing in producing engaging and effective content, graphic design for print production, web, and digital marketing. We partner with organizations to convert their vision into reality in the most fun, engaging, and creatively possible ways.</p>
+                <div class="hero-buttons">
+                    <a href="#services" class="btn btn-primary"><i class="fas fa-palette"></i> Explore Services</a>
+                    <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Contact Us</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-graphic">
+                    <div class="hero-ring"></div>
+                    <div class="hero-ring"></div>
+                    <div class="hero-ring"></div>
+                    <div class="hero-center-card">
+                        <div class="year">2000</div>
+                        <div class="since">Established</div>
+                        <div class="exp">25+ Years of Excellence</div>
+                    </div>
+                    <div class="floating-badge">
+                        <i class="fas fa-print"></i> Print & Digital
+                    </div>
+                    <div class="floating-badge">
+                        <i class="fas fa-award"></i> 30+ Years Expertise
+                    </div>
+                    <div class="floating-badge">
+                        <i class="fas fa-globe"></i> Coimbatore & Chennai
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="25">25+</div>
+                    <div class="stat-label">Years of Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Years Collective Expertise</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Offices Across India</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">9+</div>
+                    <div class="stat-label">Service Categories</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="section about" id="about">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <div class="section-badge">About Us</div>
+                    <h2 class="section-title">A Creative Design Studio with a Legacy of Excellence</h2>
+                    <p>Market Makers are a Creative Design studio with expertise in producing engaging and effective Content, Graphic Design for Print Production, Web and Digital Marketing. We partner with organisations and help them convert their vision into a reality in the most fun, engaging and creatively possible ways.</p>
+                    <p>Market Makers is founded in the year 2000 by a credible leadership team with over 30+ years of collective Senior Management experience in Graphic Design, Print, Publishing and Digital Technologies related to the field of Advertising Media and Marketing.</p>
+                    <div class="about-features">
+                        <div class="about-feature"><i class="fas fa-check-circle"></i> Graphic Design</div>
+                        <div class="about-feature"><i class="fas fa-check-circle"></i> Print Production</div>
+                        <div class="about-feature"><i class="fas fa-check-circle"></i> Digital Marketing</div>
+                        <div class="about-feature"><i class="fas fa-check-circle"></i> Web Solutions</div>
+                        <div class="about-feature"><i class="fas fa-check-circle"></i> Content Creation</div>
+                        <div class="about-feature"><i class="fas fa-check-circle"></i> Brand Identity</div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="mission-vision-cards">
+                        <div class="mv-card mission">
+                            <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                            <p>To be a leading Marketing Communication services provider, dedicated in producing engaging and effective Print and Web solutions.</p>
+                        </div>
+                        <div class="mv-card vision">
+                            <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                            <p>Market Makers is focused on creating sustainable value growth through unique design ideas and innovative print solutions. Our core value is contained in our name Market Makers (Creators), is the quintessential which drives our success.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section services" id="services">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-badge">What We Offer</div>
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">From concept to completion, we deliver end-to-end creative design and print solutions tailored to elevate your brand.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Brochures</h3>
+                    <p>Professionally designed corporate and product brochures that tell your brand story with compelling visuals and layouts. Multi-page booklets with premium finishing.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Corporate</span>
+                        <span class="service-tag">Product</span>
+                        <span class="service-tag">Multi-page</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <h3>Brochures with Envelopes</h3>
+                    <p>Complete brochure packaging solutions with custom-designed envelopes for a professional and polished corporate presentation and mailing.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Packaging</span>
+                        <span class="service-tag">Custom Envelope</span>
+                        <span class="service-tag">Corporate</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+                    <h3>Pamphlets &amp; Leaflets</h3>
+                    <p>Eye-catching pamphlets and leaflets for product promotion, event marketing, and information distribution. Available in multiple fold styles and sizes.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Bi-fold</span>
+                        <span class="service-tag">Tri-fold</span>
+                        <span class="service-tag">Flyers</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3>Adaptations</h3>
+                    <p>Design adaptation services for multi-format and multi-platform needs. We convert your designs across various formats including posters, banners, and digital media.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Multi-format</span>
+                        <span class="service-tag">Posters</span>
+                        <span class="service-tag">Digital</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-pen-nib"></i></div>
+                    <h3>Stationery Design</h3>
+                    <p>Complete corporate stationery suites including letterheads, prescription pads, billing formats, envelopes, and business forms with consistent brand identity.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Letterheads</span>
+                        <span class="service-tag">Envelopes</span>
+                        <span class="service-tag">Forms</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-id-card"></i></div>
+                    <h3>Business Cards &amp; Stickers</h3>
+                    <p>Stand out with creatively designed business cards and custom stickers. From minimalist to vibrant designs, with premium printing and finishing options.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Business Cards</span>
+                        <span class="service-tag">Labels</span>
+                        <span class="service-tag">Stickers</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-box-open"></i></div>
+                    <h3>Product Packaging</h3>
+                    <p>Attractive and functional product packaging design for food, pharmaceuticals, electronics, home appliances, and consumer goods across all industries.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Food</span>
+                        <span class="service-tag">Pharma</span>
+                        <span class="service-tag">Electronics</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Calendars</h3>
+                    <p>Custom-designed wall calendars and desk calendars for corporate gifting and branding. Creative layouts with your brand imagery and messaging throughout.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Wall</span>
+                        <span class="service-tag">Desk</span>
+                        <span class="service-tag">Corporate</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shapes"></i></div>
+                    <h3>Collaterals</h3>
+                    <p>Marketing collaterals including danglers, tent cards, circular calculators, machine stickers, and other promotional materials for retail and trade marketing.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Danglers</span>
+                        <span class="service-tag">Tent Cards</span>
+                        <span class="service-tag">POS Materials</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="section portfolio" id="portfolio">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-badge">Our Work</div>
+                <h2 class="section-title">Portfolio Showcase</h2>
+                <p class="section-subtitle">A glimpse of the diverse projects we have delivered for clients across industries.</p>
+            </div>
+            <div class="portfolio-categories">
+                <span class="portfolio-cat active">All</span>
+                <span class="portfolio-cat">Brochures</span>
+                <span class="portfolio-cat">Packaging</span>
+                <span class="portfolio-cat">Stationery</span>
+                <span class="portfolio-cat">Calendars</span>
+                <span class="portfolio-cat">Collaterals</span>
+            </div>
+        </div>
+        <div style="overflow: hidden; padding: 20px 0;">
+            <div class="portfolio-marquee">
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #1a5276, #2980b9);"><i class="fas fa-book-open"></i><div class="overlay"><span class="p-label">Corporate Brochure</span><span class="p-cat">Brochures</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #e74c3c, #f39c12);"><i class="fas fa-box-open"></i><div class="overlay"><span class="p-label">Food Packaging</span><span class="p-cat">Product Packaging</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"><i class="fas fa-id-card"></i><div class="overlay"><span class="p-label">Business Cards</span><span class="p-cat">Business Cards & Stickers</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);"><i class="fas fa-calendar-alt"></i><div class="overlay"><span class="p-label">Desk Calendars</span><span class="p-cat">Calendars</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #2c3e50, #34495e);"><i class="fas fa-file-alt"></i><div class="overlay"><span class="p-label">Pharma Leaflets</span><span class="p-cat">Pamphlets & Leaflets</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #d35400, #e67e22);"><i class="fas fa-pen-nib"></i><div class="overlay"><span class="p-label">Corporate Stationery</span><span class="p-cat">Stationery</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #16a085, #1abc9c);"><i class="fas fa-shapes"></i><div class="overlay"><span class="p-label">POS Danglers</span><span class="p-cat">Collaterals</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #c0392b, #e74c3c);"><i class="fas fa-sync-alt"></i><div class="overlay"><span class="p-label">Design Adaptations</span><span class="p-cat">Adaptations</span></div></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #1a5276, #2980b9);"><i class="fas fa-book-open"></i><div class="overlay"><span class="p-label">Corporate Brochure</span><span class="p-cat">Brochures</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #e74c3c, #f39c12);"><i class="fas fa-box-open"></i><div class="overlay"><span class="p-label">Food Packaging</span><span class="p-cat">Product Packaging</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"><i class="fas fa-id-card"></i><div class="overlay"><span class="p-label">Business Cards</span><span class="p-cat">Business Cards & Stickers</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);"><i class="fas fa-calendar-alt"></i><div class="overlay"><span class="p-label">Desk Calendars</span><span class="p-cat">Calendars</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #2c3e50, #34495e);"><i class="fas fa-file-alt"></i><div class="overlay"><span class="p-label">Pharma Leaflets</span><span class="p-cat">Pamphlets & Leaflets</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #d35400, #e67e22);"><i class="fas fa-pen-nib"></i><div class="overlay"><span class="p-label">Corporate Stationery</span><span class="p-cat">Stationery</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #16a085, #1abc9c);"><i class="fas fa-shapes"></i><div class="overlay"><span class="p-label">POS Danglers</span><span class="p-cat">Collaterals</span></div></div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #c0392b, #e74c3c);"><i class="fas fa-sync-alt"></i><div class="overlay"><span class="p-label">Design Adaptations</span><span class="p-cat">Adaptations</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDUSTRY CLIENTS -->
+    <section class="section clients" id="clients">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-badge">Industries We Serve</div>
+                <h2 class="section-title">Trusted Across Industries</h2>
+                <p class="section-subtitle">From healthcare and pharmaceuticals to IT, real estate, education, food, and consumer electronics — our clients span diverse sectors.</p>
+            </div>
+            <div class="clients-grid">
+                <div class="client-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Healthcare</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-pills"></i>
+                    <span>Pharmaceuticals</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>IT & Technology</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-building"></i>
+                    <span>Real Estate</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Education</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-utensils"></i>
+                    <span>Food & Beverages</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-plug"></i>
+                    <span>Electronics</span>
+                </div>
+                <div class="client-card">
+                    <i class="fas fa-car"></i>
+                    <span>Automotive</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="section why-us">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-badge">Why Us</div>
+                <h2 class="section-title">Why Choose Market Makers</h2>
+                <p class="section-subtitle">Decades of expertise, creative excellence, and a client-first approach make us your ideal design partner.</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-medal"></i></div>
+                    <h3>25+ Years of Excellence</h3>
+                    <p>Founded in 2000 with a leadership team backed by over 30 years of senior management experience in graphic design and print publishing.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3>Creative Innovation</h3>
+                    <p>Unique design ideas and innovative print solutions that create sustainable value growth for your brand and business.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>End-to-End Partner</h3>
+                    <p>From concept ideation to final print production, we handle the complete creative workflow so you can focus on growing your business.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Diverse Expertise</h3>
+                    <p>Comprehensive services spanning brochures, packaging, stationery, calendars, collaterals, adaptations, and digital marketing.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-globe-asia"></i></div>
+                    <h3>Pan-India Presence</h3>
+                    <p>With offices in Coimbatore and Chennai, we serve clients across India and beyond with local expertise and global standards.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-users"></i></div>
+                    <h3>Multi-Industry Experience</h3>
+                    <p>Proven track record across healthcare, pharmaceuticals, IT, education, food, real estate, automotive, and electronics industries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="section-container">
+            <h2>Ready to Bring Your Vision to Life?</h2>
+            <p>Let us help you create engaging and effective print and web solutions that make an impact.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn-white"><i class="fas fa-paper-plane"></i> &nbsp;Get In Touch</a>
+                <a href="tel:+919244498622" class="btn btn-outline"><i class="fas fa-phone"></i> &nbsp;+91 92444 98622</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-badge">Reach Out</div>
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">We would love to hear from you. Get in touch to discuss your next creative project.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info-cards">
+                    <div class="contact-card">
+                        <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>
+                            <h4>Phone</h4>
+                            <a href="tel:+919244498622">+91 92444 98622</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:print@market-makers.in">print@market-makers.in</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon"><i class="fas fa-globe"></i></div>
+                        <div>
+                            <h4>Website</h4>
+                            <a href="https://www.market-makers.in" target="_blank">www.market-makers.in</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon"><i class="fas fa-building"></i></div>
+                        <div>
+                            <h4>Corporate Office</h4>
+                            <p>#354-C, Avarampalayam Road, New Siddhapudur,<br>Coimbatore - 641 044, Tamil Nadu, INDIA</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Branch Office</h4>
+                            <p>#35, PS Sivaswamy Road, Mylapore,<br>Chennai - 600 004, Tamil Nadu, INDIA</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Name</label>
+                                <input type="text" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" placeholder="you@company.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" placeholder="+91 XXXXX XXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label>Service Interested In</label>
+                                <select>
+                                    <option value="">Select a Service</option>
+                                    <option>Brochures</option>
+                                    <option>Brochures with Envelopes</option>
+                                    <option>Pamphlets & Leaflets</option>
+                                    <option>Adaptations</option>
+                                    <option>Stationery Design</option>
+                                    <option>Business Cards & Stickers</option>
+                                    <option>Product Packaging</option>
+                                    <option>Calendars</option>
+                                    <option>Collaterals</option>
+                                    <option>Digital Marketing</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Message</label>
+                            <textarea placeholder="Tell us about your project..." rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> &nbsp;Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand-name">Market Makers</div>
+                <div class="brand-tag">Design Studio</div>
+                <p>A creative design studio with expertise in producing engaging content, graphic design for print production, web, and digital marketing since 2000.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Brochures</a></li>
+                    <li><a href="#services">Pamphlets & Leaflets</a></li>
+                    <li><a href="#services">Product Packaging</a></li>
+                    <li><a href="#services">Stationery</a></li>
+                    <li><a href="#services">Business Cards</a></li>
+                    <li><a href="#services">Calendars</a></li>
+                    <li><a href="#services">Collaterals</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Corporate Office</h4>
+                <ul>
+                    <li><a href="tel:+919244498622"><i class="fas fa-phone-alt" style="width:16px;"></i> &nbsp;+91 92444 98622</a></li>
+                    <li><a href="mailto:print@market-makers.in"><i class="fas fa-envelope" style="width:16px;"></i> &nbsp;print@market-makers.in</a></li>
+                    <li><a href="https://www.market-makers.in" target="_blank"><i class="fas fa-globe" style="width:16px;"></i> &nbsp;www.market-makers.in</a></li>
+                </ul>
+                <br>
+                <p style="font-size:13px; line-height:1.6; color:rgba(255,255,255,0.5);">#354-C, Avarampalayam Road,<br>New Siddhapudur, Coimbatore - 641 044<br>Tamil Nadu, INDIA</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2000 &ndash; 2026 Market Makers Design Studio. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            if (window.scrollY > 400) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Close menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.width = particle.style.height = (Math.random() * 6 + 2) + 'px';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = (Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Form submit handler
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fas fa-check"></i> &nbsp;Message Sent!';
+            btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> &nbsp;Send Message';
+                btn.style.background = '';
+                e.target.reset();
+            }, 3000);
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
